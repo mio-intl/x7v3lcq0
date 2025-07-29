@@ -7,6 +7,8 @@
 ## Projects Included:
 - home page
 
-> Managed using MIO-ID
+---
 
-> (c) 2025 Masovskiy International Organization. Component: MIO-ID / Namespace x7v3lcq0. All rights reserved.
+> Managed using MIO-ID
+>
+> ___(c) 2025 Masovskiy International Organization. Component: MIO-ID / Namespace x7v3lcq0. All rights reserved.___
