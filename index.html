@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roman Paramonov — Namespace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2CA5E0',
+                        dark: '#0f172a',
+                        accent: '#8b5cf6',
+                        secondary: '#1e293b'
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'text-gradient': 'text-gradient 8s ease infinite',
+                        'border-pulse': 'border-pulse 4s ease infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        'text-gradient': {
+                            '0%, 100%': { 'background-position': '0% 50%' },
+                            '50%': { 'background-position': '100% 50%' }
+                        },
+                        'border-pulse': {
+                            '0%, 100%': { 'border-color': 'rgba(44, 165, 224, 0.3)' },
+                            '50%': { 'border-color': 'rgba(139, 92, 246, 0.6)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .tech-icon {
+            transition: all 0.3s ease;
+            filter: grayscale(100%);
+        }
+        
+        .tech-icon:hover {
+            transform: scale(1.15);
+            filter: grayscale(0%);
+        }
+        
+        .glow {
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+        }
+        
+        .snake-animation {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            background: url('https://mio-intl.github.io/20-masovskiy/assets/github-snake.svg') repeat-x;
+            background-size: contain;
+            opacity: 0.1;
+            animation: snakeMove 60s linear infinite;
+        }
+        
+        @keyframes snakeMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 0; }
+        }
+        
+        .language-switch {
+            position: relative;
+            display: inline-block;
+            width: 80px;
+            height: 34px;
+        }
+        
+        .language-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #334155;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "EN";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: #2CA5E0;
+            transition: .4s;
+            border-radius: 50%;
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        input:checked + .slider:before {
+            content: "RU";
+            transform: translateX(46px);
+        }
+        
+        .card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(124, 58, 237, 0.5);
+        }
+        
+        .visitor-badge {
+            background: linear-gradient(45deg, #2CA5E0, #8b5cf6);
+            border-radius: 9999px;
+            padding: 2px 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .mio-id {
+            background: linear-gradient(45deg, #0f172a, #1e293b);
+            border: 1px solid rgba(44, 165, 224, 0.3);
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 1px;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, #2CA5E0, #8b5cf6);
+            border-radius: 3px;
+        }
+        
+        .gradient-text {
+            background-image: linear-gradient(90deg, #2CA5E0, #8b5cf6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-size: 200% 200%;
+            animation: text-gradient 8s ease infinite;
+        }
+        
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2CA5E0, #8b5cf6);
+            border: 2px solid #0f172a;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -16px;
+            top: 16px;
+            bottom: -16px;
+            width: 2px;
+            background: linear-gradient(to bottom, #2CA5E0, #8b5cf6);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(44, 165, 224, 0.3);
+            animation: border-pulse 4s ease infinite;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(44, 165, 224, 0.2);
+        }
+        
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.2);
+            color: #2CA5E0;
+        }
+        
+        @media (max-width: 768px) {
+            .snake-animation {
+                height: 60px;
+            }
+            
+            .tech-icon {
+                width: 10vw;
+                height: 10vw;
+                min-width: 40px;
+                min-height: 40px;
+            }
+        }
+    </style>
+</head>
+<body class="relative">
+    <!-- Snake animation background -->
+    <div class="snake-animation"></div>
+    
+    <!-- Floating particles -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-3 h-3 rounded-full bg-primary opacity-30 floating-element" style="animation-delay: 0s;"></div>
+        <div class="absolute top-1/3 right-1/3 w-2 h-2 rounded-full bg-accent opacity-30 floating-element" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-1/4 left-1/3 w-4 h-4 rounded-full bg-white opacity-20 floating-element" style="animation-delay: 2s;"></div>
+        <div class="absolute bottom-1/3 right-1/4 w-3 h-3 rounded-full bg-accent opacity-30 floating-element" style="animation-delay: 3s;"></div>
+    </div>
+    
+    <!-- Header -->
+    <header class="fixed w-full z-50 py-4 px-4 md:px-8 bg-dark/90 backdrop-blur-sm border-b border-gray-800">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold gradient-text">Roman Paramonov <span class="text-gray-400">— Namespace</span></h1>
+            
+            <div class="flex items-center space-x-4">
+                <span class="text-sm hidden md:block en-content">Language:</span>
+                <span class="text-sm hidden md:block ru-content hidden">Язык:</span>
+                <label class="language-switch">
+                    <input type="checkbox" id="lang-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 px-4 md:px-8">
+        <div class="container mx-auto flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 flex justify-center mb-10 md:mb-0">
+                <div class="relative">
+                    <img src="https://images.crunchbase.com/image/upload/c_thumb,h_170,w_170,f_auto,g_face,z_0.7,b_white,q_auto:eco,dpr_2/bb889b0e579943b5886a823f4b63e70a"
+                          alt="Roman Paramonov(Mas0vsk1yy)"
+                          class="rounded-full w-64 h-64 object-cover border-4 border-primary glow hover:border-accent transition-all duration-300">
+                    <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-primary text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1">
+                        <i class="fas fa-check"></i> <span class="en-content">Verified</span><span class="ru-content hidden">Подтверждено</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="md:w-1/2 text-center md:text-left">
+                <div class="mb-6">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-2 en-content">Hi 👋 I'm Roman!</h2>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-2 ru-content hidden">Привет 👋 Я Роман!</h2>
+                    <p class="text-gray-400 text-lg mono">Cryptography Specialist & Software Developer</p>
+                </div>
+                
+                <div class="flex flex-wrap justify-center md:justify-start items-center gap-4 mb-8">
+                    <a href="https://t.me/masovskiy_tg" class="bg-primary hover:bg-[#1d8ec0] text-white px-6 py-3 rounded-full flex items-center gap-2 transition hover:shadow-lg hover:shadow-primary/30">
+                        <i class="fab fa-telegram"></i>
+                        <span class="en-content">Telegram</span>
+                        <span class="ru-content hidden">Telegram</span>
+                    </a>
+                    
+                    <a href="https://github.com/masovskiy" class="bg-secondary hover:bg-gray-800 text-white px-6 py-3 rounded-full flex items-center gap-2 transition hover:shadow-lg hover:shadow-gray-800/30">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                
+                <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+                    <span class="px-3 py-1 bg-gray-800 rounded-full text-sm flex items-center gap-1">
+                        <i class="fab fa-python text-primary"></i> Python
+                    </span>
+                    <span class="px-3 py-1 bg-gray-800 rounded-full text-sm flex items-center gap-1">
+                        <i class="fab fa-react text-primary"></i> React
+                    </span>
+                    <span class="px-3 py-1 bg-gray-800 rounded-full text-sm flex items-center gap-1">
+                        <i class="fas fa-fingerprint text-primary"></i> Digital Identity
+                    </span>
+                    <span class="px-3 py-1 bg-gray-800 rounded-full text-sm flex items-center gap-1">
+                        <i class="fas fa-network-wired text-primary"></i> Decentralized Systems
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me -->
+    <section class="py-16 px-4 md:px-8">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center section-title en-content">About Me</h2>
+            <h2 class="text-3xl font-bold mb-12 text-center section-title ru-content hidden">Обо мне</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- English Content -->
+                <div class="card p-6 en-content">
+                    <p class="mb-4">I'm Roman Paramonov (Mas0vsk1yy) — specialist in cryptography, software development, and international relations.</p>
+                    <p class="mb-6">I actively contribute to open source projects focused on building trust in the digital world, advancing secure and transparent digital identities and collaborations.</p>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <span class="text-primary mr-3">🔭</span>
+                            <span>Projects: MIO Sign Utility, MIO SID (Server ID), MIO Identity Framework</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-primary mr-3">🎵</span>
+                            <span>Musician — plays guitar, piano and creates music</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-primary mr-3">🎮</span>
+                            <span>Game lover — enjoys Minecraft and building virtual worlds</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-primary mr-3">💃</span>
+                            <span>Dancer — passionate about movement</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-primary mr-3">📚</span>
+                            <span>Mentored Python learners — some of them are now senior developers</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Russian Content -->
+                <div class="card p-6 ru-content hidden">
+                    <p class="mb-4">Я — Роман Парамонов (Mas0vsk1yy), специалист в криптографии, разработке ПО и международных отношениях.</p>
+                    <p class="mb-6">Я активно участвую в open-source проектах, направленных на создание доверия в цифровом мире, развивая безопасные и прозрачные системы цифровой идентификации.</p>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <span class="text-primary mr-3">🔭</span>
+                            <span>Проекты: MIO Sign Utility, MIO SID (Server ID), MIO Identity Framework</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-primary mr-3">🎵</span>
+                            <span>Музыкант — играю на гитаре, пианино и создаю музыку</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-primary mr-3">🎮</span>
+                            <span>Любитель поиграть — люблю Minecraft и создание виртуальных миров</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-primary mr-3">💃</span>
+                            <span>Танцор — увлекаюсь танцами</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-primary mr-3">📚</span>
+                            <span>Обучал Python — некоторые ученики стали senior-разработчиками</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timeline -->
+                <div class="card p-6 col-span-1 lg:col-span-2">
+                    <h3 class="text-xl font-bold mb-6 gradient-text en-content">Experience Timeline</h3>
+                    <h3 class="text-xl font-bold mb-6 gradient-text ru-content hidden">Опыт работы</h3>
+                    
+                    <div class="relative pl-8">
+                        <div class="timeline-item relative pb-8">
+                            <h4 class="font-bold text-lg">Masovskiy International Organization</h4>
+                            <p class="text-gray-400 text-sm mb-2">2019 - Present</p>
+                            <p class="en-content">Founder and lead developer of digital identity solutions and decentralized systems.</p>
+                            <p class="ru-content hidden">Основатель и ведущий разработчик решений для цифровой идентификации и децентрализованных систем.</p>
+                        </div>
+                        
+                        <div class="timeline-item relative pb-8">
+                            <h4 class="font-bold text-lg">Freelance Developer</h4>
+                            <p class="text-gray-400 text-sm mb-2">2018 - Present</p>
+                            <p class="en-content">Developed custom solutions for clients including web applications, automation scripts, and system integrations.</p>
+                            <p class="ru-content hidden">Разрабатывал индивидуальные решения для клиентов, включая веб-приложения, скрипты автоматизации и интеграции систем.</p>
+                        </div>
+                        
+                        <div class="timeline-item relative">
+                            <h4 class="font-bold text-lg">Python Mentor</h4>
+                            <p class="text-gray-400 text-sm mb-2">2020 - 2022</p>
+                            <p class="en-content">Conducted Python programming courses and mentored junior developers.</p>
+                            <p class="ru-content hidden">Проводил курсы по программированию на Python и обучал junior-разработчиков.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies -->
+    <section class="py-16 px-4 md:px-8">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center section-title en-content">Technologies I Use</h2>
+            <h2 class="text-3xl font-bold mb-12 text-center section-title ru-content hidden">Технологии</h2>
+            
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-6 justify-items-center">
+                <div class="tech-icon" title="JavaScript">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="HTML5">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="CSS3">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="React">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="Vite">
+                    <img src="https://skillicons.dev/icons?i=vite" alt="Vite" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="Webpack">
+                    <img src="https://cdn.simpleicons.org/webpack/8DD6F9" alt="Webpack" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="Bash">
+                    <img src="https://cdn.simpleicons.org/gnubash/4EAA25" alt="Bash" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="Python">
+                    <img src="https://skillicons.dev/icons?i=py" alt="Python" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="PostgreSQL">
+                    <img src="https://skillicons.dev/icons?i=postgres" alt="PostgreSQL" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="Docker">
+                    <img src="https://skillicons.dev/icons?i=docker" alt="Docker" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="FastAPI">
+                    <img src="https://skillicons.dev/icons?i=fastapi" alt="FastAPI" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="Java">
+                    <img src="https://skillicons.dev/icons?i=java" alt="Java" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="Node.js">
+                    <img src="https://skillicons.dev/icons?i=nodejs" alt="Node.js" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="Git">
+                    <img src="https://skillicons.dev/icons?i=git" alt="Git" class="w-12 h-12">
+                </div>
+                <div class="tech-icon" title="Linux">
+                    <img src="https://skillicons.dev/icons?i=linux" alt="Linux" class="w-12 h-12">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="py-16 px-4 md:px-8">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center section-title en-content">Featured Projects</h2>
+            <h2 class="text-3xl font-bold mb-12 text-center section-title ru-content hidden">Проекты</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="project-card bg-dark p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary/20 p-3 rounded-lg mr-4">
+                            <i class="fas fa-id-card text-primary text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">MIO Identity Framework</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4 en-content">Decentralized identity verification system with cryptographic signatures and registry validation.</p>
+                    <p class="text-gray-400 mb-4 ru-content hidden">Децентрализованная система верификации идентичности с криптографическими подписями и валидацией в реестре.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-gray-800 rounded-full text-xs">Python</span>
+                        <span class="px-2 py-1 bg-gray-800 rounded-full text-xs">Cryptography</span>
+                        <span class="px-2 py-1 bg-gray-800 rounded-full text-xs">Decentralized</span>
+                    </div>
+                </div>
+                
+                <div class="project-card bg-dark p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary/20 p-3 rounded-lg mr-4">
+                            <i class="fas fa-server text-primary text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">MIO SID</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4 en-content">Server identification system for verifying and authenticating services in the MIO network.</p>
+                    <p class="text-gray-400 mb-4 ru-content hidden">Система идентификации серверов для верификации и аутентификации сервисов в сети MIO.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-gray-800 rounded-full text-xs">Bash</span>
+                        <span class="px-2 py-1 bg-gray-800 rounded-full text-xs">Linux</span>
+                        <span class="px-2 py-1 bg-gray-800 rounded-full text-xs">Systemd</span>
+                    </div>
+                </div>
+                
+                <div class="project-card bg-dark p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary/20 p-3 rounded-lg mr-4">
+                            <i class="fas fa-signature text-primary text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">MIO Sign Utility</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4 en-content">Command-line tool for creating and verifying cryptographic signatures for documents and files.</p>
+                    <p class="text-gray-400 mb-4 ru-content hidden">Консольная утилита для создания и проверки криптографических подписей документов и файлов.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-gray-800 rounded-full text-xs">Python</span>
+                        <span class="px-2 py-1 bg-gray-800 rounded-full text-xs">CLI</span>
+                        <span class="px-2 py-1 bg-gray-800 rounded-full text-xs">Security</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MIO Identity -->
+    <section class="py-16 px-4 md:px-8">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center section-title en-content">MIO Identity</h2>
+            <h2 class="text-3xl font-bold mb-12 text-center section-title ru-content hidden">Удостоверение MIO</h2>
+            
+            <div class="max-w-2xl mx-auto">
+                <div class="card p-8 text-center">
+                    <div class="flex justify-center mb-6">
+                        <div class="bg-gray-800 rounded-full p-4">
+                            <i class="fas fa-id-card text-3xl text-primary"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="mio-id mb-6 mx-auto">
+                        mio-x7v3lcq0-romanp
+                    </div>
+                    
+                    <div class="en-content">
+                        <p class="mb-2">Issued by Masovskiy International Organization</p>
+                        <p class="text-gray-400">Verified via MIO Registry and IANA PEN 63733</p>
+                    </div>
+                    
+                    <div class="ru-content hidden">
+                        <p class="mb-2">Выдано Masovskiy International Organization</p>
+                        <p class="text-gray-400">Проверено в реестре MIO и IANA PEN 63733</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="py-16 px-4 md:px-8">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-3xl font-bold mb-12 text-center section-title en-content">Get In Touch</h2>
+            <h2 class="text-3xl font-bold mb-12 text-center section-title ru-content hidden">Свяжитесь со мной</h2>
+            
+            <div class="card p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 gradient-text en-content">Contact Information</h3>
+                        <h3 class="text-xl font-bold mb-4 gradient-text ru-content hidden">Контактная информация</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <div class="bg-primary/20 p-2 rounded-lg mr-4">
+                                    <i class="fas fa-envelope text-primary"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400 en-content">Email</p>
+                                    <p class="font-medium">masovskiy077@mail.ru</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="bg-primary/20 p-2 rounded-lg mr-4">
+                                    <i class="fab fa-telegram text-primary"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400">Telegram</p>
+                                    <p class="font-medium">@masovskiy_tg</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="bg-primary/20 p-2 rounded-lg mr-4">
+                                    <i class="fab fa-github text-primary"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400">GitHub</p>
+                                    <p class="font-medium">masovskiy</p>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    
+         
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+          <div style="text-align: center; margin: 2rem 0;">
+            <img src="https://mio-intl.github.io/badge.png" alt="Verified by MIO: site.mio-x7v3lcq0-romanp.badge" style="max-width: 180px;" loading="lazy">
+          </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="py-8 px-4 md:px-8 border-t border-gray-800">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 en-content">© 2025 MIO Portfolio Service. All rights reserved.</p>
+                <p class="text-gray-500 ru-content hidden">© 2025 MIO Portfolio Service. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language toggle functionality
+        const langToggle = document.getElementById('lang-toggle');
+        const enContent = document.querySelectorAll('.en-content');
+        const ruContent = document.querySelectorAll('.ru-content');
+        
+        langToggle.addEventListener('change', function() {
+            if (this.checked) {
+                // Switch to Russian
+                enContent.forEach(el => el.classList.add('hidden'));
+                ruContent.forEach(el => el.classList.remove('hidden'));
+            } else {
+                // Switch to English
+                enContent.forEach(el => el.classList.remove('hidden'));
+                ruContent.forEach(el => el.classList.add('hidden'));
+            }
+        });
+        
+        // Visitor counter simulation
+        const visitorBadge = document.getElementById('visitor-count');
+        let count = parseInt(visitorBadge.textContent);
+        
+        setInterval(() => {
+            count++;
+            visitorBadge.textContent = count;
+        }, 10000);
+        
+        // Add hover effect to cards on scroll
+        const cards = document.querySelectorAll('.card, .project-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-pulse-slow');
+                } else {
+                    entry.target.classList.remove('animate-pulse-slow');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        cards.forEach(card => {
+            observer.observe(card);
+        });
+        
+        // Dark/light theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        let darkMode = true;
+        
+        themeToggle.addEventListener('click', () => {
+            darkMode = !darkMode;
+            
+            if (darkMode) {
+                document.documentElement.classList.add('dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                
+                // Update background gradient for dark mode
+                document.body.style.background = 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)';
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                
+                // Update background gradient for light mode
+                document.body.style.background = 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)';
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+    </script>
+</body>
+</html>
